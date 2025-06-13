@@ -4,7 +4,7 @@ const path = require("path");
 const app = express();
 
 app.get('/', (req, res)=>{
-    res.send("runnign");
+    res.send("API is working");
 })
 
 app.listen(3000, ()=>{
