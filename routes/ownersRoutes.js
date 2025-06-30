@@ -3,7 +3,12 @@ const router = express.Router();
 const ownerModel = require('../models/ownermodel');
 
 router.get('/',(req,res)=>{
-    res.send('hey owner');     //we can make response handlers 
+    res.render('owner-login')    //we can make response handlers 
+})
+
+router.get('/admin', (req,res)=>{
+    let success = req.flash("success");
+    res.render('createproducts' , {success});
 })
 
 if(process.env.NODE_ENV === "development"){  // $env:NODE_ENV = "development" we can create such env variables
@@ -24,5 +29,7 @@ if(process.env.NODE_ENV === "development"){  // $env:NODE_ENV = "development" we
     })
     res.status(201).send(createdOwner)
   })
+
+
 }
 module.exports = router ;
