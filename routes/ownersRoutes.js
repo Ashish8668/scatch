@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const ownerModel = require('../models/ownermodel');
+const isOwner = require('../middlewares/isOwner')
+const bcrypt = require('bcrypt');
+const {generateToken} = require('../utils/generateToken')
 
-router.get('/',(req,res)=>{
-    res.render('owner-login')    //we can make response handlers 
-})
-
-router.get('/admin', (req,res)=>{
+router.get('/admin', isOwner , (req,res)=>{
     let success = req.flash("success");
     res.render('createproducts' , {success});
 })
@@ -32,4 +31,37 @@ if(process.env.NODE_ENV === "development"){  // $env:NODE_ENV = "development" we
 
 
 }
+
+router.post('/login', async (req,res)=>{
+    try {
+       let {email , password} = req.body ; 
+       let owner =  await ownerModel.findOne({email : email});
+       if(!owner) {
+        req.flash("error" , "email or password is incorrect");
+        return res.redirect('/owners')
+       }
+       bcrypt.compare(password, owner.password ,(err, result)=>{
+        if(result) {
+            let admintoken = generateToken(owner);
+            res.cookie("admintoken", admintoken);
+            return res.redirect('/owners/admin');
+        }
+            req.flash("error","email or password is incorrect");
+            return res.redirect('/owners');
+       })
+    } catch (error) {
+        res.send(error.message);
+    }
+})
+
+router.get('/logout',(req,res)=>{
+  res.clearCookie("admintoken").redirect('/owners');
+
+})
+
+router.get('/',(req,res)=>{
+  let error = req.flash("error");
+  res.render('owner-login', {error});
+})
+
 module.exports = router ;
