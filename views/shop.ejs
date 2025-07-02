@@ -57,6 +57,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
+      text: white;
     }
     .product-card {
       background-color: #f9f9f9;
@@ -104,9 +105,56 @@
       border: 1px solid #ccc;
       margin-top: 6px;
     }
+    a.add-btn {
+  display: inline-block;
+  background-color: #007BFF;
+  color: white;                 /* text color */
+  font-size: 16px;              /* text size */
+  text-decoration: none;        /* removes underline */
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+a.add-btn:hover {
+  background-color: #0056b3;
+  color: #fff;
+}
+ .success-box {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #3b82f6;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 999;
+      animation: fadeInDown 0.4s ease;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
   </style>
 </head>
 <body>
+  <% if(success.length>0){ %>
+     <div class="success-box">
+      <%= success %>
+     </div>
+    <% } %>
   <div class="container">
 
     <!-- Sidebar Filters -->
@@ -148,7 +196,7 @@
           <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="Product Image">
           <h3><%= product.name %></h3>
           <p>₹<%= product.price %></p>
-          <button>Add to Cart</button>
+          <a href="/users/addtocart/<%= product._id %>" class="add-btn">Add to Cart</a>   
         </div>
         <% }); %>
       </div>

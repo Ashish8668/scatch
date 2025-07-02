@@ -10,7 +10,8 @@ router.get('/',(req,res)=>{
 
 router.get('/shop' , isLoggedIn ,async (req, res)=>{
    let products = await productModel.find();
-   res.render('shop',{products});
+   const success = req.flash("success");
+   res.render('shop',{products , success});
 })
 
 module.exports = router ;

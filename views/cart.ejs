@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #2980b9, #6dd5fa);
+      display: flex;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 950px;
+      padding: 40px;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 20px 0;
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .cart-item img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      border-radius: 12px;
+      background-color: #f0f0f0;
+    }
+
+    .price-details span {
+      display: block;
+      font-size: 14px;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="text-2xl font-bold text-gray-700 mb-6">🛒 Your Cart</h2>
+
+    <% if (user.cart.length === 0) { %>
+      <p class="text-gray-600">Your cart is empty.</p>
+    <% } else { %>
+
+      <% let total = 0; const platformFee = 20; %>
+
+      <% user.cart.forEach((item) => {
+          const discountedPrice = item.discount ? (item.price - item.discount) : item.price;
+          const delivery = item.deliveryFee || 0;
+          const itemTotal = discountedPrice + delivery;
+          total += itemTotal;
+      %>
+        <div class="cart-item">
+          <img src="data:image/jpeg;base64,<%= item.image.toString('base64') %>" alt="<%= item.name %>">
+          <div class="flex-grow">
+            <h3 class="text-lg font-semibold mb-1"><%= item.name %></h3>
+            <div class="price-details text-sm">
+              <span>Price: ₹<%= item.price %></span>
+              <% if(item.discount && item.discount > 0) { %>
+                <span>Discount: -₹<%= item.discount %></span>
+                <span class="text-green-600 font-semibold">Final: ₹<%= discountedPrice %></span>
+              <% } %>
+              <span>Delivery Fee: ₹<%= delivery %></span>
+              <span class="font-medium text-blue-600">Subtotal: ₹<%= itemTotal %></span>
+            </div>
+          </div>
+          <form action="/cart/remove/<%= item._id %>" method="post">
+            <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 text-sm">Remove</button>
+          </form>
+        </div>
+      <% }); %>
+
+      <!-- Cart Summary -->
+      <div class="mt-10 text-right">
+        <div class="inline-block text-left bg-gray-50 p-5 rounded shadow">
+          <p class="text-gray-700 mb-2">Items Total: ₹<%= total %></p>
+          <p class="text-gray-700 mb-2">Platform Charge: ₹<%= platformFee %></p>
+          <p class="text-lg font-bold text-gray-900 border-t pt-2">Grand Total: ₹<%= total + platformFee %></p>
+        </div>
+        <form action="/checkout" method="post" class="mt-4">
+          <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded text-sm">Proceed to Checkout</button>
+        </form>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>
