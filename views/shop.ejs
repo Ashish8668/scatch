@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Shop Products</title>
   <style>
     * {
@@ -10,65 +10,86 @@
       margin: 0;
       padding: 0;
     }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
       background: linear-gradient(135deg, #2980b9, #6dd5fa);
-      display: flex;
-      justify-content: center;
+    }
+
+    .main-wrapper {
+      max-width: 1400px;
+      margin: 0 auto;
       padding: 40px;
     }
+
     .container {
       background: white;
       border-radius: 20px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-      width: 100%;
-      max-width: 1400px;
       display: flex;
-      padding: 40px;
       gap: 40px;
+      padding: 40px;
     }
+
     .sidebar {
       width: 25%;
     }
+
     .sidebar h2 {
       font-size: 20px;
       font-weight: bold;
       margin-bottom: 20px;
       color: #333;
     }
+
     .sidebar label {
       font-size: 14px;
       color: #444;
     }
+
     .sidebar .section {
       margin-bottom: 30px;
     }
+
+    select,
+    input[type='range'] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 6px;
+    }
+
     .product-area {
       width: 75%;
     }
+
     .product-area h2 {
       font-size: 24px;
       font-weight: bold;
       margin-bottom: 24px;
       color: #444;
     }
+
     .product-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
-      text: white;
     }
+
     .product-card {
       background-color: #f9f9f9;
       border-radius: 12px;
       padding: 16px;
       transition: 0.3s ease;
-      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     }
+
     .product-card:hover {
       transform: translateY(-5px);
     }
+
     .product-card img {
       height: 180px;
       width: 100%;
@@ -76,61 +97,44 @@
       margin-bottom: 10px;
       border-radius: 8px;
     }
+
     .product-card h3 {
       font-weight: 600;
       font-size: 18px;
       margin-bottom: 8px;
     }
+
     .product-card p {
       color: #666;
       margin-bottom: 12px;
     }
-    .product-card button {
-      background-color: #007BFF;
+
+    a.add-btn {
+      display: inline-block;
+      background-color: #007bff;
       color: white;
+      font-size: 16px;
+      text-decoration: none;
       padding: 10px 16px;
-      border: none;
       border-radius: 6px;
       font-weight: bold;
-      cursor: pointer;
       transition: background-color 0.3s ease;
     }
-    .product-card button:hover {
+
+    a.add-btn:hover {
       background-color: #0056b3;
     }
-    select, input[type="range"] {
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      margin-top: 6px;
-    }
-    a.add-btn {
-  display: inline-block;
-  background-color: #007BFF;
-  color: white;                 /* text color */
-  font-size: 16px;              /* text size */
-  text-decoration: none;        /* removes underline */
-  padding: 10px 16px;
-  border-radius: 6px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
 
-a.add-btn:hover {
-  background-color: #0056b3;
-  color: #fff;
-}
- .success-box {
-      position: absolute;
-      top: 20px;
+    .success-box {
+      position: fixed;
+      top: 90px;
       left: 50%;
       transform: translateX(-50%);
       background-color: #3b82f6;
       color: white;
       padding: 12px 20px;
       border-radius: 8px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       font-size: 14px;
       font-weight: 500;
       z-index: 999;
@@ -150,57 +154,62 @@ a.add-btn:hover {
   </style>
 </head>
 <body>
-  <% if(success.length>0){ %>
-     <div class="success-box">
-      <%= success %>
-     </div>
-    <% } %>
-  <div class="container">
 
-    <!-- Sidebar Filters -->
-    <aside class="sidebar">
-      <h2>Filter Products</h2>
+  <!-- Header Include -->
+  <%- include('./partials/header') %>
 
-      <div class="section">
-        <label class="block">Sort By</label>
-        <select>
-          <option>Popular</option>
-          <option>Newest</option>
-          <option>Price: Low to High</option>
-          <option>Price: High to Low</option>
-        </select>
-      </div>
 
-      <div class="section">
-        <label class="block">Categories</label>
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
-          <label><input type="checkbox" style="margin-right: 8px;">Clothing</label>
-          <label><input type="checkbox" style="margin-right: 8px;">Electronics</label>
-          <label><input type="checkbox" style="margin-right: 8px;">Footwear</label>
-          <label><input type="checkbox" style="margin-right: 8px;">Accessories</label>
+  <% if(success.length > 0) { %>
+    <div class="success-box"><%= success %></div>
+  <% } %>
+
+  <div class="main-wrapper">
+    <div class="container">
+      <!-- Sidebar Filters -->
+      <aside class="sidebar">
+        <h2>Filter Products</h2>
+
+        <div class="section">
+          <label class="block">Sort By</label>
+          <select>
+            <option>Popular</option>
+            <option>Newest</option>
+            <option>Price: Low to High</option>
+            <option>Price: High to Low</option>
+          </select>
         </div>
-      </div>
 
-      <div class="section">
-        <label class="block">Price Range</label>
-        <input type="range" min="100" max="5000">
-      </div>
-    </aside>
-
-    <!-- Product Cards -->
-    <main class="product-area">
-      <h2>All Products</h2>
-      <div class="product-grid">
-        <% products.forEach((product) => { %>
-        <div class="product-card">
-          <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="Product Image">
-          <h3><%= product.name %></h3>
-          <p>₹<%= product.price %></p>
-          <a href="/users/addtocart/<%= product._id %>" class="add-btn">Add to Cart</a>   
+        <div class="section">
+          <label class="block">Categories</label>
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+            <label><input type="checkbox" style="margin-right: 8px;" />Clothing</label>
+            <label><input type="checkbox" style="margin-right: 8px;" />Electronics</label>
+            <label><input type="checkbox" style="margin-right: 8px;" />Footwear</label>
+            <label><input type="checkbox" style="margin-right: 8px;" />Accessories</label>
+          </div>
         </div>
-        <% }); %>
-      </div>
-    </main>
+
+        <div class="section">
+          <label class="block">Price Range</label>
+          <input type="range" min="100" max="5000" />
+        </div>
+      </aside>
+
+      <!-- Product Cards -->
+      <main class="product-area">
+        <h2>All Products</h2>
+        <div class="product-grid">
+          <% products.forEach((product) => { %>
+            <div class="product-card">
+              <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="Product Image" />
+              <h3><%= product.name %></h3>
+              <p>₹<%= product.price %></p>
+              <a href="/users/addtocart/<%= product._id %>" class="add-btn">Add to Cart</a>
+            </div>
+          <% }); %>
+        </div>
+      </main>
+    </div>
   </div>
 </body>
 </html>

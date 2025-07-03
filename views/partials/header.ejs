@@ -1,0 +1,49 @@
+<header style="background-color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 100%; position: sticky; top: 0; z-index: 1000;">
+  <div style="
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  ">
+
+    <!-- Logo -->
+    <a href="/" style="font-size: 24px; font-weight: 700; color: #2563eb; text-decoration: none;">
+      Scatch
+    </a>
+
+    <!-- Navigation -->
+    <nav style="display: flex; gap: 24px; align-items: center; font-weight: 500; flex-wrap: wrap;">
+      <a href="/shop" style="text-decoration: none; color: #374151; transition: 0.3s;" onmouseover="this.style.color='#2563eb'" onmouseout="this.style.color='#374151'">Shop</a>
+      <a href="/users/cart" style="text-decoration: none; color: #374151; transition: 0.3s;" onmouseover="this.style.color='#2563eb'" onmouseout="this.style.color='#374151'">Cart</a>
+      <a href="/owners" style="text-decoration: none; color: #374151; transition: 0.3s;" onmouseover="this.style.color='#2563eb'" onmouseout="this.style.color='#374151'">Admin</a>
+    </nav>
+
+    <!-- Auth Buttons -->
+    <div>
+      <!-- <% if (locals.user) { %>
+        <a href="/login" style="
+          background-color: #2563eb;
+          color: white;
+          padding: 10px 18px;
+          border-radius: 6px;
+          text-decoration: none;
+          font-weight: 600;
+          transition: background-color 0.3s ease;
+        " onmouseover="this.style.backgroundColor='#1d4ed8'" onmouseout="this.style.backgroundColor='#2563eb'">Login</a>
+      <% } else { %> -->
+        <a href="/users/logout" style="
+          background-color: #2563eb;
+          color: white;
+          padding: 10px 18px;
+          border-radius: 6px;
+          text-decoration: none;
+          font-weight: 600;
+          transition: background-color 0.3s ease;
+        " onmouseover="this.style.backgroundColor='#1d4ed8'" onmouseout="this.style.backgroundColor='#2563eb'">Logout</a>
+      <!-- <% } %> -->
+    </div>
+  </div>
+</header>
